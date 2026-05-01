@@ -86,6 +86,9 @@
 **6. How (Detection Logic) จะคัดกรองอย่างไร❓**
 - การใช้ Alert Logic ที่รวมเงื่อนไข ความเร็วผิดปกติ + ยอดเงินสูง + ปลายทางชายแดน เพื่อระบุว่าเป็นบัญชีม้า
 ## ⭐️ AI Data Quality
+### Analyze Data using Excel
+Excel files: [Scam Query Dataset](Scam Query Dataset)
+
 ### Data Dictionary ⬇️
 
 <img width="1634" height="902" alt="image" src="https://github.com/user-attachments/assets/9cc1b756-628d-41b8-97a1-360e00719b7b" />
@@ -126,9 +129,7 @@
 **3. ช่องทางการเกิดทุจริต (Channel Distribution)**
 - พบการทุจริตกระจายตัวอยู่ในทุกช่องทางหลัก เช่น K-Plus, Krungthai NEXT และ SCB EASY โดยเฉพาะช่องทาง Mobile ที่มักถูกใช้เป็นเครื่องมือหลักในการทำธุรกรรมที่ผิดปกติ  
 
-## ⭐️ EDA & Visualizations
-### Analyze Data using Excel 
-Excel file: 
+## ⭐️ EDA & Visualization 
 
 **1. Who (Target)❓**
 - ยืนยันได้ชัดเจนว่า บัญชี Dormant ถูกใช้เป็นบัญชีม้ามากกว่า Active 
@@ -137,11 +138,11 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 
 <img width="1328" height="944" alt="image" src="https://github.com/user-attachments/assets/cbdf3311-ff32-470f-85cc-75bcad0eab29" />
 
-
+---
 
 **2. Where (Geographic Risk)❓**
 
-Tableau files: [EDA.twbx](EDA.tedx)
+Tableau files: [EDA.twbx](EDA.twbx)
 - Mismatch route มี Fraud Rate 100% เมื่อใดก็ตามที่ IP ต้นทางกับจังหวัดที่ถอนเงินไม่ตรงกัน นั่นคือ fraud แน่นอน โดยเฉพาะจังหวัดชายแดน  ซึ่งเป็นจุดที่เครือข่ายบัญชีม้าใช้ถอนเงินแล้วนำออกนอกประเทศ
 - Location Mismatch จึงสามารถใช้เป็น hard rule ในการ flag fraud ได้
 
@@ -150,16 +151,28 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 <img width="1101" height="758" alt="Screenshot 2569-05-01 at 16 21 34" src="https://github.com/user-attachments/assets/1c907450-243a-435b-a0d7-9915f722e400" />
 
-
+---
 
 **3. What (Risk Feature)❓**
 - ธุรกรรมที่มีจำนวนมากเป็นความโดนเด่นของ​การโกง เพราะมิจฉาชีพต้องการกวาดเงินให้ได้มากที่สุดในครั้งเดียว 
 - Outflow Ratio 90.96% ยืนยัน Drain-to-Zero Pattern เมื่อมิจฉาชีพเข้าถึงบัญชีได้จะโอนเงินออกจนเกือบหมดในครั้งเดียว
 - ต่างจากพฤติกรรมปกติที่คนทั่วไปโอนเงินเพียงบางส่วน (Avg Outflow ratio 3.49%)
 
+**Transaction Amount Distribution Graph(Linear Scale)**
+กราฟนี้แสดงให้เห็นว่ายอดเงินของการโกงมีความแตกต่างจากปกติอย่างมหาศาล
+- กลุ่มปกติ (สีฟ้า): มีการกระจายตัวกว้าง ตั้งแต่หลักร้อยไปจนถึงเกือบเก้าแสนบาท (Max 910k) แต่ค่าเฉลี่ยส่วนใหญ่อยู่ที่ประมาณ 15,000 บาท
+- กลุ่มทุจริต (สีแดง): จะเห็นว่า Box (กล่อง) แบนแต๊ดแต๋อยู่ด้านบน และมีจุดกระจัดกระจาย (Outliers) สูงมาก ค่าเฉลี่ยพุ่งไปถึง 616,966 บาท
+- Insight: มิจฉาชีพไม่ได้โอนเล่นๆ แต่เน้นโอนยอดใหญ่ที่สุดเท่าที่จะทำได้ในครั้งเดียว
+
+**Transaction Value Comparison Graph(Log10 Transformation)**
+เนื่องจากยอดเงินปกติกับยอดเงินโกงมันต่างกันเกินไป (ต่างกัน 40 เท่า) การใช้ Log Scale จะช่วยให้เราเห็นโครงสร้างของข้อมูลได้ชัดขึ้นครับ
+- กลุ่มปกติ (จุดสีฟ้า): ข้อมูลกระจายตัวสม่ำเสมอในหลายระดับยอดเงิน
+- กลุ่มทุจริต (กล่องสีแดง): เมื่อทำ Log แล้วจะเห็นชัดว่า ธุรกรรมโกงเกาะกลุ่มกันแน่นมาก (Tightly Clustered) ในระดับวงเงินที่สูง (ระดับ 10^5 - 10^6)
+- Insight: กราฟนี้ยืนยันว่าพฤติกรรมมิจฉาชีพมี Pattern ที่แน่นอน คือมุ่งเป้าไปที่การดึงเงินก้อนใหญ่ออกทันที ไม่ได้กระจายตัวแบบสุ่มเหมือนพฤติกรรมการใช้จ่ายของคนทั่วไป
+
 <img width="1065" height="555" alt="Screenshot 2569-05-01 at 21 04 10" src="https://github.com/user-attachments/assets/9c7475fe-b8a0-4c3c-a353-db84cc3897e1" />
 
-
+---
 
 **4. When (Temporal Pattern)❓**
 - Fraud กระจายตัวสม่ำเสมอตลอด 24 ชั่วโมง ซึ่งต่างจากสมมติฐานเดิมที่คาดว่าจะกระจุกตัวในช่วงดึก
@@ -167,7 +180,7 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 <img width="1065" height="555" alt="Screenshot 2569-05-01 at 21 04 49" src="https://github.com/user-attachments/assets/1e64837e-7a15-4c40-9e12-b99cf245ad5e" />
 
-
+---
 
 **5. Why (Justification)❓**
 - 671 ราย ใน 1,186 Fraud ทั้งหมด เกิดขึ้นแม้มีการสแกนหน้าแล้ว 
@@ -176,7 +189,7 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 <img width="888" height="346" alt="Screenshot 2569-05-01 at 21 05 14" src="https://github.com/user-attachments/assets/c3508fed-f1ca-4274-9adb-9e984aa30e7a" />
 
-
+---
 
 **6. How (Detection Logic)❓**
 - is_high_risk_scenario มีประสิทธิภาพสูงมาก
@@ -199,7 +212,7 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 <img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 31" src="https://github.com/user-attachments/assets/908712d3-381b-4fe6-8c25-be5e31755cd3" />
 
-
+---
 
 **2. High-Risk Provinces 🛣️**
 - Drain-to-Zero Pattern: ธุรกรรมในจังหวัดเสี่ยงมีสัดส่วนการโอนออก > 80% (Is_80Pct_Drain = Yes) สูงอย่างชัดเจน
@@ -208,7 +221,7 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 <img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 36" src="https://github.com/user-attachments/assets/537ce135-46d0-40ed-9827-9a7296565447" />
 
-
+---
 
 **3. Hourly Fraud Peak 🕰️**
 - Multi-peak Fraud Pattern: พบจุดพีคกระจายตัวตามช่วงเวลาการใช้งานของเหยื่อ
@@ -218,7 +231,7 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 <img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 41" src="https://github.com/user-attachments/assets/482f654d-9da1-42b9-a69b-717b924cccda" />
 
-
+---
 
 **4. Average Velocity per Device Model 🚘**
 - Samsung S24 Ultra มี AVG Velocity สูงสุด (43.81 กม./ชม.) รองลงมาคือ Oppo Reno 11 (41.64) และสุดท้าย Vivo V30 (40.63)
@@ -226,7 +239,7 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 <img width="691" height="404" alt="Screenshot 2569-05-01 at 21 08 48" src="https://github.com/user-attachments/assets/7c35ae60-3952-4e72-bd79-5329b6e32a90" />
 
-
+---
 
 **5. Device Risk Profile 📱**
 - พบธุรกรรมทุจริตหนาแน่นในกลุ่มผู้ใช้ Android (Xiaomi, Samsung)
@@ -238,8 +251,8 @@ Tableau files: [EDA.twbx](EDA.tedx)
 
 
 ## ⭐️ Strategic Recommendations & Action Plan
-**1️⃣ Velocity Block Rule:** Hold ธุรกรรม 30 นาที หาก Velocity > 200 กม./ชม. เพื่อหยุดเงินก่อนออกนอกประเทศ
-**2️⃣ Night-Time Security:** ช่วง 00:00-05:00 น. บังคับสแกนหน้าแบบเคลื่อนไหว หากโอนเกิน 80% ของบัญชี
-**3️⃣ Mule Watchlist:** เฝ้าระวังและ Alert ทันที เมื่อมีการโอนเข้าบัญชีเปิดใหม่ใน 5 จังหวัดชายแดน
-**4️⃣ Customer Education:** แจ้งเตือนลูกค้ากลุ่มเสี่ยงให้ปิดสิทธิ์ "Accessibility Service" เพื่อป้องกันแอปดูดเงิน
-**5️⃣ Device-based Risk Escalation:** กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
+**1. Velocity Block Rule:** Hold ธุรกรรม 30 นาที หาก Velocity > 200 กม./ชม. เพื่อหยุดเงินก่อนออกนอกประเทศ
+**2. Night-Time Security:** ช่วง 00:00-05:00 น. บังคับสแกนหน้าแบบเคลื่อนไหว หากโอนเกิน 80% ของบัญชี
+**3. Mule Watchlist:** เฝ้าระวังและ Alert ทันที เมื่อมีการโอนเข้าบัญชีเปิดใหม่ใน 5 จังหวัดชายแดน
+**4. Customer Education:** แจ้งเตือนลูกค้ากลุ่มเสี่ยงให้ปิดสิทธิ์ "Accessibility Service" เพื่อป้องกันแอปดูดเงิน
+**5. Device-based Risk Escalation:** กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
