@@ -91,23 +91,29 @@
 <img width="1634" height="902" alt="image" src="https://github.com/user-attachments/assets/9cc1b756-628d-41b8-97a1-360e00719b7b" />
 
 
-**♡Data Exploration & Quality Analysis♡**
+### Data Exploration & Quality Analysis
 
 <img width="1920" height="1080" alt="Purple and White Modern Gradient Business Pitch Deck Presentation (1)" src="https://github.com/user-attachments/assets/d0673e87-406b-48d3-b404-98e61214fe41" />
+
 
 <img width="2360" height="948" alt="image" src="https://github.com/user-attachments/assets/b1212447-bf53-4d51-bd2c-3bece6d338d9" />
 
 
-**Data Pre-processing & Quality Control**
+### Data Pre-processing & Quality Control
+
 **1. การจัดการข้อมูลสูญหาย (Handling Missing Values)**
-- Problem: พบค่า Null ในคอลัมน์ duration_sec (ระยะเวลาการใช้งาน)
+- ✳️ Problem: พบค่า Null ในคอลัมน์ duration_sec (ระยะเวลาการใช้งาน)
 - Solution: ใช้เทคนิค Query-based Imputation โดยเติมค่าว่างด้วย ค่าเฉลี่ยแยกตามประเภทกิจกรรม (Average per Event Type) แทนการใช้ค่าเฉลี่ยรวม เพื่อรักษาความแม่นยำของพฤติกรรมในแต่ละกิจกรรม
 
 **2. การปรับมาตรฐานข้อมูล (Data Standardization)**
-- Problem: คอลัมน์ ip_province มีข้อมูลไม่สม่ำเสมอ เช่น ชื่อย่อ (BKK) หรือเขียนติดกัน (ChiangMai)  
+- ✳️ Problem: คอลัมน์ ip_province มีข้อมูลไม่สม่ำเสมอ เช่น ชื่อย่อ (BKK) หรือเขียนติดกัน (ChiangMai)  
 - Solution: ใช้ Conditional Logic Mapping เพื่อแปลงข้อมูลให้ตรงตาม Master List (เช่น BKK ➔ Bangkok) ช่วยให้การจัดกลุ่มและการทำ Visualization ถูกต้องแม่นยำ
 
-**Key Insights (สรุปผลการวิเคราะห์)**
+<img width="2224" height="1228" alt="image" src="https://github.com/user-attachments/assets/4540bf04-40cb-433b-82d8-1f3b038a27db" />
+
+
+### Key Insights (สรุปผลการวิเคราะห์)
+
 **1. พฤติกรรมการเงินที่ผิดปกติ (Significant Amount & Pattern)**
 - ยอดเงินสูงผิดปกติ: รายการทุจริตมียอดเงินเฉลี่ยสูงถึง ~616,000 บาท ซึ่งสูงกว่ารายการปกติถึง 40 เท่า
 - พฤติกรรมการโอนเกลี้ยงบัญชี: รายการทุจริตกว่า 93% มีพฤติกรรมโอนเงินออกเกิน 80% ของยอดเงินคงเหลือ (Is_80Pct_Drain) ในขณะที่รายการปกติมีพฤติกรรมนี้เพียง 0.9% เท่านั้น
@@ -117,3 +123,11 @@
 
 **3. ช่องทางการเกิดทุจริต (Channel Distribution)**
 - พบการทุจริตกระจายตัวอยู่ในทุกช่องทางหลัก เช่น K-Plus, Krungthai NEXT และ SCB EASY โดยเฉพาะช่องทาง Mobile ที่มักถูกใช้เป็นเครื่องมือหลักในการทำธุรกรรมที่ผิดปกติ  
+
+## EDA & Visualizations
+**1. Who (Target) ใครคือเหยื่อ**
+- ยืนยันได้ชัดเจนว่า บัญชี Dormant ถูกใช้เป็นบัญชีม้ามากกว่า Active 
+- เหตุผลคือ เจ้าของบัญชีไม่ได้ใช้งานนานทำให้มิจฉาชีพมีโอกาสเข้าถึงหรือซื้อบัญชีดังกล่าวมาใช้โดยที่เจ้าของไม่สังเกตเห็นความผิดปกติ
+KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip 5.60%, NDID 6.17%) แสดงว่าวิธียืนยันตัวตนไม่ใช่ปัจจัยหลักแต่สถานะบัญชีสำคัญกว่า
+
+<img width="1328" height="944" alt="image" src="https://github.com/user-attachments/assets/cbdf3311-ff32-470f-85cc-75bcad0eab29" />
