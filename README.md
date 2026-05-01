@@ -2,17 +2,17 @@
 # Detecting Scam-Induced Transactions to Mule Accounts
 <img width="2470" height="1390" alt="image" src="https://github.com/user-attachments/assets/1f7afa16-cfd1-44f7-907d-53894018c83f" />
 
-## Background
+## ⭐️ Background
 ในปัจจุบันระบบธนาคารกำลังเผชิญกับภัยคุกคามรูปแบบ APP Fraud ที่ซับซ้อนขึ้น มิจฉาชีพได้เปลี่ยนจากการแฮ็กระบบมาเป็นการแฮ็กการตัดสินใจของเหยื่อเพื่อให้เกิดการโอนเงินด้วยความสมัครใจ โดยเทคนิคของมิจฉาชีพ คือ ใช้เทคโนโลยีการควบคุมระยะไกลร่วมกับการโน้มน้าวใจทำให้ระบบความปลอดภัยแบบ Multi-Factor Authentication ทั่วไปถูกข้ามผ่านไปได้ เนื่องจากรายการถูกอนุมัติจากอุปกรณ์ที่น่าเชื่อถือของเหยื่อเอง เราจึงมุ่งเน้นการวิเคราะห์ Behavioral-based Data เพื่อตรวจจับร่องรอยการเหนี่ยวนำของมิจฉาชีพก่อนที่ความเสียหายทางการเงินจะขยายวงกว้าง และเพื่อช่วยให้ธนาคารสามารถบริหารจัดการความเสี่ยงด้าน Compliance ได้อย่างมีประสิทธิภาพ
-## Pain Points
+## ⭐️ Pain Points
 - ธุรกรรมเหล่านี้เกิดขึ้นบนอุปกรณ์และพิกัด IP ที่ถูกต้องของเหยื่อจริง ทำให้เกณฑ์การตรวจจับแบบเดิมไม่สามารถแยกแยะความผิดปกติได้
 - ระบบ Legacy ในปัจจุบันตรวจสอบเพียงข้อมูลตัวตนแต่ขาดการวิเคราะห์พฤติกรรมการใช้จ่ายที่ผิดไปจากเดิม เช่น การปรับเปลี่ยนวงเงินฉุกเฉินร่วมกับการโอนเงินออกในสัดส่วนที่สูงผิดปกติจนเกือบหมดบัญชีภายในระยะเวลาอันสั้น
-## SMART Objectives
+## ⭐️ SMART Objectives
 ### S (Specific)
 สร้างระบบตรวจจับธุรกรรมที่เข้าข่ายโดนหลอกลวง โดยเน้นไปที่พฤติกรรมการโอนเงินแบบผิดปกติ เช่น การโอนเงินเกลี้ยงบัญชีภายในเวลาอันสั้น และการระบุพิกัดปลายทางของบัญชีม้าในพื้นที่เสี่ยง(จังหวัดชายแดน) เพื่อยับยั้งความเสียหายก่อนเงินจะไหลออกนอกประเทศ
 ### M (Measurable)
 **Hypothesis 1️⃣** มีการเพิ่มวงเงิน (Limit Adjustment) และเพิ่มผู้รับโอนรายใหม่ (Add New Payee) ในเวลาที่สั้นผิดปกติ
-- KPI: Alert Rate & False Positive Reduction**
+- KPI: Alert Rate & False Positive Reduction
 - ไม่รบกวนลูกค้าปกติ
 - ต้องการลดอัตราการแจ้งเตือนผิดพลาด (False Positive Rate) ให้ ต่ำกว่า 8% เพื่อลดการระงับบัญชีลูกค้าที่ไม่ได้ทำความผิด
 - วัดผลจากจำนวนครั้งที่ระบบแจ้งเตือนว่าเป็นกลุ่มเสี่ยงแต่ตรวจสอบแล้วเป็นรายการปกติ โดยต้องมีค่าเฉลี่ยไม่เกิน 8% จากจำนวนการ Alert ทั้งหมด เพื่อรักษาประสบการณ์การใช้งานของลูกค้า
@@ -40,7 +40,7 @@
 
 ### T (Time-bound)
 ระบบจะถูกออกแบบมาให้ทำงานแบบ Real-time Monitoring โดยมีกรอบเวลาในการแจ้งเตือน (Time to Alert) ภายในระยะเวลาสั้นๆ (เช่น 15 นาที) หลังจากตรวจพบความผิดปกติเพื่อให้ทันต่อการอายัดธุรกรรม
-## Hypothesis Method & Selected Metrics 
+## ⭐️ Hypothesis Method & Selected Metrics 
 **Hypothesis 1️⃣** มีการเพิ่มวงเงิน (Limit Adjustment) และเพิ่มผู้รับโอนรายใหม่ (Add New Payee) ในเวลาที่สั้นผิดปกติ
 
 **✳️ Method: Temporal Behavioral Analysis**
@@ -67,31 +67,31 @@
 **✳️ Metric: Mule Connectivity Velocity (Fund Retention Duration)**
 - ความเร็วในการไหลของเงินจากต้นทางไปยังพื้นที่ถอนเงินในจังหวัดชายแดน
 - วัด Location Mismatch เช่น เหยื่อโอนจากกรุงเทพฯ แต่เงินถูกถอนที่ตากภายในเวลาไม่กี่นาที และดูอัตราการ แช่เงิน (Fund Retention) ที่ต่ำมาก คือเงินเข้าปุ๊บถูกถอนออกปั๊บทันทีที่จุดนัดพบของบัญชีม้า
-## 5W1H: Sharp Analytical Questions
-**1. Who (Target) ใครคือเหยื่อ?**
+## ⭐️ 5W1H: Sharp Analytical Questions
+**1. Who (Target) ใครคือเหยื่อ❓**
 - บัญชีที่มีพฤติกรรมการโอนเงินที่เปลี่ยนไปอย่างกะทันหัน บัญชีที่มีการโอนเงินจากพื้นที่ที่ไม่ใช่ที่อยู่ประจำ หรือมี IP ต้นทางในจังหวัดเศรษฐกิจ เช่น กรุงเทพฯ แต่เงินถูกถอนออกที่ชายแดนในเวลาที่ไล่เลี่ยกัน
   
-**2. Where (Geographic Risk) เงินไหลไปที่ไหน?**
+**2. Where (Geographic Risk) เงินไหลไปที่ไหน❓**
 - พื้นที่ ip_province ที่มีความถี่ในการโอนเงินออกสูงผิดปกติ หรือเกิด Location Mismatch ระหว่าง ip_province (ที่เหยื่ออยู่ เช่น กรุงเทพฯ) กับ mule_withdrawal_province (ที่มิจฉาชีพถอนเงิน เช่น ตาก) ซึ่งจังหวัดชายแดนเป็นจุดถอนเงินของบัญชีม้า
   
-**3. What (Risk Feature) ธุรกรรมแบบไหนที่น่าสงสัย?**
+**3. What (Risk Feature) ธุรกรรมแบบไหนที่น่าสงสัย❓**
 - ธุรกรรมที่มีมูลค่าสูง (High-value) และส่งผลให้ Outflow Ratio สูงผิดปกติ (เช่น โอนออก > 80% จนยอดเงินคงเหลือใกล้เคียง 0)
   
-**4. When (Temporal Pattern) ลำดับเวลาใดที่ผิดปกติ?**
+**4. When (Temporal Pattern) ลำดับเวลาใดที่ผิดปกติ❓**
 - มีการทำกิจกรรมต้นทางเช่น CHANGE_DAILY_LIMIT หรือ ADD_NEW_PAYEE ด้วยระยะเวลาที่รวดเร็วผิดปกติ (Duration Anomaly) ก่อนการโอนเงินทันที
   
-**5. Why (Justification) ทำไมต้องวิเคราะห์เพิ่ม?**
+**5. Why (Justification) ทำไมต้องวิเคราะห์เพิ่ม❓**
 - การใช้ is_facial_scan เพียงอย่างเดียวไม่เพียงพอ เพื่อพิสูจน์ว่ามิจฉาชีพอาจหลอกให้เหยื่อสแกนหน้าด้วยตนเอง หรือถูกหลอกให้ทำรายการเองภายใต้การ Remote ระบบจึงต้องใช้ Behavioral Logs มาเป็นปัจจัยยืนยันความเสี่ยงแทน
   
-**6. How (Detection Logic) จะคัดกรองอย่างไร?**
+**6. How (Detection Logic) จะคัดกรองอย่างไร❓**
 - การใช้ Alert Logic ที่รวมเงื่อนไข ความเร็วผิดปกติ + ยอดเงินสูง + ปลายทางชายแดน เพื่อระบุว่าเป็นบัญชีม้า
-## AI Data Quality
-### Data Dictionary
+## ⭐️ AI Data Quality
+### Data Dictionary ⬇️
 
 <img width="1634" height="902" alt="image" src="https://github.com/user-attachments/assets/9cc1b756-628d-41b8-97a1-360e00719b7b" />
 
 
-### Data Exploration & Quality Analysis
+### Data Exploration & Quality Analysis ⬇️
 
 <img width="1920" height="1080" alt="Purple and White Modern Gradient Business Pitch Deck Presentation (1)" src="https://github.com/user-attachments/assets/d0673e87-406b-48d3-b404-98e61214fe41" />
 
@@ -99,7 +99,7 @@
 <img width="2360" height="948" alt="image" src="https://github.com/user-attachments/assets/b1212447-bf53-4d51-bd2c-3bece6d338d9" />
 
 
-### Data Pre-processing & Quality Control
+### Data Pre-processing & Quality Control 🎯
 
 **1. การจัดการข้อมูลสูญหาย (Handling Missing Values)**
 - ✳️ Problem: พบค่า Null ในคอลัมน์ duration_sec (ระยะเวลาการใช้งาน)
@@ -112,7 +112,7 @@
 <img width="2224" height="1228" alt="image" src="https://github.com/user-attachments/assets/4540bf04-40cb-433b-82d8-1f3b038a27db" />
 
 
-### Key Insights (สรุปผลการวิเคราะห์)
+### Key Insights (สรุปผลการวิเคราะห์) 🔑
 
 **1. พฤติกรรมการเงินที่ผิดปกติ (Significant Amount & Pattern)**
 - ยอดเงินสูงผิดปกติ: รายการทุจริตมียอดเงินเฉลี่ยสูงถึง ~616,000 บาท ซึ่งสูงกว่ารายการปกติถึง 40 เท่า
@@ -124,15 +124,16 @@
 **3. ช่องทางการเกิดทุจริต (Channel Distribution)**
 - พบการทุจริตกระจายตัวอยู่ในทุกช่องทางหลัก เช่น K-Plus, Krungthai NEXT และ SCB EASY โดยเฉพาะช่องทาง Mobile ที่มักถูกใช้เป็นเครื่องมือหลักในการทำธุรกรรมที่ผิดปกติ  
 
-## EDA & Visualizations
-**1. Who (Target)**
+## ⭐️ EDA & Visualizations
+**1. Who (Target)❓**
 - ยืนยันได้ชัดเจนว่า บัญชี Dormant ถูกใช้เป็นบัญชีม้ามากกว่า Active 
 - เหตุผลคือ เจ้าของบัญชีไม่ได้ใช้งานนานทำให้มิจฉาชีพมีโอกาสเข้าถึงหรือซื้อบัญชีดังกล่าวมาใช้โดยที่เจ้าของไม่สังเกตเห็นความผิดปกติ
 KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip 5.60%, NDID 6.17%) แสดงว่าวิธียืนยันตัวตนไม่ใช่ปัจจัยหลักแต่สถานะบัญชีสำคัญกว่า
 
 <img width="1328" height="944" alt="image" src="https://github.com/user-attachments/assets/cbdf3311-ff32-470f-85cc-75bcad0eab29" />
 
-**2. Where (Geographic Risk)**
+
+**2. Where (Geographic Risk)❓**
 - Mismatch route มี Fraud Rate 100% เมื่อใดก็ตามที่ IP ต้นทางกับจังหวัดที่ถอนเงินไม่ตรงกัน นั่นคือ fraud แน่นอน โดยเฉพาะจังหวัดชายแดน  ซึ่งเป็นจุดที่เครือข่ายบัญชีม้าใช้ถอนเงินแล้วนำออกนอกประเทศ
 - Location Mismatch จึงสามารถใช้เป็น hard rule ในการ flag fraud ได้
 
@@ -140,31 +141,86 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 
 <img width="1101" height="758" alt="Screenshot 2569-05-01 at 16 21 34" src="https://github.com/user-attachments/assets/1c907450-243a-435b-a0d7-9915f722e400" />
 
-**3. What (Risk Feature)**
+
+**3. What (Risk Feature)❓**
 - ธุรกรรมที่มีจำนวนมากเป็นความโดนเด่นของ​การโกง เพราะมิจฉาชีพต้องการกวาดเงินให้ได้มากที่สุดในครั้งเดียว 
 - Outflow Ratio 90.96% ยืนยัน Drain-to-Zero Pattern เมื่อมิจฉาชีพเข้าถึงบัญชีได้จะโอนเงินออกจนเกือบหมดในครั้งเดียว
 - ต่างจากพฤติกรรมปกติที่คนทั่วไปโอนเงินเพียงบางส่วน (Avg Outflow ratio 3.49%)
 
-**4. When (Temporal Pattern)**
+<img width="1065" height="555" alt="Screenshot 2569-05-01 at 21 04 10" src="https://github.com/user-attachments/assets/9c7475fe-b8a0-4c3c-a353-db84cc3897e1" />
+
+
+**4. When (Temporal Pattern)❓**
 - Fraud กระจายตัวสม่ำเสมอตลอด 24 ชั่วโมง ซึ่งต่างจากสมมติฐานเดิมที่คาดว่าจะกระจุกตัวในช่วงดึก
 - ชั่วโมงที่ 23 และ ชั่วโมงที่ 2 สูงขึ้นสะท้อนพฤติกรรมมิจฉาชีพที่ทำงานช่วงเจ้าของบัญชีหลับ เพราะโอกาสที่เหยื่อจะสังเกตเห็นการแจ้งเตือน และยกเลิกรายการทันทีนั้นต่ำกว่า ส่วน Peak (ชม.ที่ 8,16) สอดคล้องกับช่วงที่เหยื่อถูกหลอกโดยตรง เช่น มิจฉาชีพโทรมาหาในเวลากลางวัน
 
-**5. Why (Justification)**
+<img width="1065" height="555" alt="Screenshot 2569-05-01 at 21 04 49" src="https://github.com/user-attachments/assets/1e64837e-7a15-4c40-9e12-b99cf245ad5e" />
+
+
+**5. Why (Justification)❓**
 - 671 ราย ใน 1,186 Fraud ทั้งหมด เกิดขึ้นแม้มีการสแกนหน้าแล้ว 
 - กรณี 1: เหยื่อถูกหลอกให้สแกนหน้าเองโดยคิดว่าเป็นขั้นตอนปกติ
 - กรณี 2: มิจฉาชีพ Remote Control เครื่องเหยื่อแล้วทำการสแกนหน้าผ่านกล้องของเครื่อง ทั้งสองกรณีพิสูจน์ว่า Facial Scan เพียงอย่างเดียวไม่สามารถป้องกัน Fraud ได้ และจำเป็นต้องใช้ Behavioral Logs เช่น ความเร็วของการทำรายการ, การเปลี่ยนวงเงินก่อนโอน, และ Location Mismatch มาประกอบการพิจารณา
 
-**6. How (Detection Logic)**
+<img width="888" height="346" alt="Screenshot 2569-05-01 at 21 05 14" src="https://github.com/user-attachments/assets/c3508fed-f1ca-4274-9adb-9e984aa30e7a" />
+
+
+**6. How (Detection Logic)❓**
 - is_high_risk_scenario มีประสิทธิภาพสูงมาก
 - Precision 99.46% เกือบทุก alert ที่ระบบยิงออกมาเป็น Fraud จริง (มี False Positive แค่ 6 ราย เท่านั้น และ Recall 93.17%)
 - ระบบจับ Fraud ได้ 93% ของทั้งหมด มี Fraud หลุดรอด 81 ราย ซึ่งอาจเป็น Fraud ที่มีพฤติกรรมไม่ครบทุก Flag หรือยอดเงินต่ำกว่า Threshold
 - กราฟ Stacked Bar บอกว่า High Risk Condition bar เกือบทั้งหมดเป็นสีแดง (TRUE) และ Normal bar เกือบทั้งหมดเป็นสีน้ำเงิน (FALSE)
 
-## Findings & Behavioral Insights
-**Geospatial Risk: Mule Withdrawal Hotspots**
+<img width="1065" height="522" alt="Screenshot 2569-05-01 at 21 05 53" src="https://github.com/user-attachments/assets/966ec65e-db6c-48aa-a79e-3d54b9ca8d07" />
+
+
+## ⭐️ Findings & Behavioral Insights
+**1. Geospatial Risk: Mule Withdrawal Hotspots 🗺️** 
 - พบความหนาแน่นของธุรกรรมทุจริตในพื้นที่จังหวัดชายแดนส่วนใหญ่
 - Top 3 AVG(Velocity) - ความเร็วเดินทางเฉลี่ยที่ผิดปกติ:
   - นราธิวาส: 982.4 กม./ชม.
   - เชียงราย: 708.5 กม./ชม.
   - มุกดาหาร: 670.4 กม./ชม.
 - ค่าเฉลี่ยความเร็วที่สูงเกินจริง (Impossible Travel) ยืนยันการถูกควบคุมเครื่องจากระยะไกลและการโยกเงินออกสู่ชายแดนทันที
+
+<img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 31" src="https://github.com/user-attachments/assets/908712d3-381b-4fe6-8c25-be5e31755cd3" />
+
+
+**2. High-Risk Provinces 🛣️**
+- Drain-to-Zero Pattern: ธุรกรรมในจังหวัดเสี่ยงมีสัดส่วนการโอนออก > 80% (Is_80Pct_Drain = Yes) สูงอย่างชัดเจน
+- Top Risk Provinces: เชียงราย, ตาก, กาญจนบุรี, สระแก้ว, นราธิวาส
+- มิจฉาชีพเน้นการกวาดเงินให้หมดบัญชีในครั้งเดียว (Hit & Run) ซึ่งต่างจากพฤติกรรมลูกค้าปกติที่จะมียอดเงินคงเหลือไว้ใช้จ่าย
+
+<img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 36" src="https://github.com/user-attachments/assets/537ce135-46d0-40ed-9827-9a7296565447" />
+
+
+**3. Hourly Fraud Peak 🕰️**
+- Multi-peak Fraud Pattern: พบจุดพีคกระจายตัวตามช่วงเวลาการใช้งานของเหยื่อ
+- Morning Peak (08:00): สัมพันธ์กับช่วงเวลาที่มิจฉาชีพโทรหลอกลวง (Scam Call)
+- Evening & Night Peak (16:00, 23:00): ช่วงเวลาที่ธุรกรรมหนาแน่นและช่วงที่เหยื่อหลับ (Sleep Window)
+- มิจฉาชีพไม่ได้ทำงานแค่ช่วงดึก แต่ปรับเปลี่ยนกลยุทธ์ตาม Life Cycle ของเหยื่อตลอดวัน
+
+<img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 41" src="https://github.com/user-attachments/assets/482f654d-9da1-42b9-a69b-717b924cccda" />
+
+
+**4. Average Velocity per Device Model 🚘**
+- Samsung S24 Ultra มี AVG Velocity สูงสุด (43.81 กม./ชม.) รองลงมาคือ Oppo Reno 11 (41.64) และสุดท้าย Vivo V30 (40.63)
+- สะท้อนว่าอุปกรณ์ Android กลุ่มนี้ถูกใช้ใน Cross-border Case มากกว่า iPhone อย่างมีนัยสำคัญ
+
+<img width="691" height="404" alt="Screenshot 2569-05-01 at 21 08 48" src="https://github.com/user-attachments/assets/7c35ae60-3952-4e72-bd79-5329b6e32a90" />
+
+
+**5. Device Risk Profile 📱**
+- พบธุรกรรมทุจริตหนาแน่นในกลุ่มผู้ใช้ Android (Xiaomi, Samsung)
+- Security Gap: 85% ของเคสทุจริตสแกนหน้าสำเร็จ เนื่องจากเหยื่อถูกหลอกให้โอนเอง หรือมิจฉาชีพใช้ Remote Access
+- Action: ต้องเฝ้าระวังอุปกรณ์ที่เปิดสิทธิ์ Accessibility Service ซึ่งเสี่ยงต่อการถูกควบคุมจากระยะไกล
+
+<img width="671" height="404" alt="Screenshot 2569-05-01 at 21 08 54" src="https://github.com/user-attachments/assets/008a20ae-d87a-4449-9810-1119900eae3a" />
+
+
+## ⭐️ Strategic Recommendations & Action Plan
+1. Velocity Block Rule: Hold ธุรกรรม 30 นาที หาก Velocity > 200 กม./ชม. เพื่อหยุดเงินก่อนออกนอกประเทศ
+2. Night-Time Security: ช่วง 00:00-05:00 น. บังคับสแกนหน้าแบบเคลื่อนไหว หากโอนเกิน 80% ของบัญชี
+3. Mule Watchlist: เฝ้าระวังและ Alert ทันที เมื่อมีการโอนเข้าบัญชีเปิดใหม่ใน 5 จังหวัดชายแดน
+4. Customer Education: แจ้งเตือนลูกค้ากลุ่มเสี่ยงให้ปิดสิทธิ์ "Accessibility Service" เพื่อป้องกันแอปดูดเงิน
+5. Device-based Risk Escalation: กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
