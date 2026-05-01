@@ -43,28 +43,28 @@
 ## Hypothesis Method & Selected Metrics 
 **Hypothesis 1️⃣** มีการเพิ่มวงเงิน (Limit Adjustment) และเพิ่มผู้รับโอนรายใหม่ (Add New Payee) ในเวลาที่สั้นผิดปกติ
 
-**Method: Temporal Behavioral Analysis**
+**✳️ Method: Temporal Behavioral Analysis**
 - นำข้อมูลจาก Behavioral Logs มาเปรียบเทียบค่าระยะเวลาที่ใช้จริง (Duration_sec) กับค่าเฉลี่ยปกติ (ref_avg_duration)
   
-**Metric: Anomaly Index (Time-to-Transfer)**
+**✳️ Metric: Anomaly Index (Time-to-Transfer)**
 - วัดความเร็วในการทำธุรกรรมเทียบกับค่าเฉลี่ยปกติ (Actual vs. Avg Duration)
 - ตรวจจับพฤติกรรมรีบผิดปกติหรือชำนาญผิดปกติ ซึ่งเป็นสัญญาณของการถูก Remote Access หรือการที่มิจฉาชีพควบคุมเครื่องเหยื่อระบบจะ Alert ทันทีหากพฤติกรรมใน Log (เช่น เปลี่ยนวงเงิน) จนถึงการโอนเงินสำเร็จเกิดขึ้นเร็วเกินไป
 
 **Hypothesis 2️⃣** มิจฉาชีพอาจใช้ Remote Access ควบคุมเครื่องจากระยะไกล จุดตรวจจับที่แท้จริงคือ ความขัดแย้งเชิงพฤติกรรม ระหว่างพิกัด IP ของเหยื่อกับพิกัดการถอนเงินสดที่ชายแดน
 
-**Method: Geospatial Connectivity Mapping**
+**✳️ Method: Geospatial Connectivity Mapping**
 - สร้างตรรกะเพื่อระบุความขัดแย้งเชิงพฤติกรรมเมื่อพบว่ารายการโอนเกิดขึ้นจาก IP พื้นที่หนึ่ง แต่ถูกถอนเงินออกในพื้นที่ห่างไกล ในเวลาที่สั้นเกินกว่าจะเป็นไปได้จริง
 
-**Metric: Impossible Travel Velocity**
+**✳️ Metric: Impossible Travel Velocity**
 - อัตราความเร็วที่คำนวณจากสูตร Distance / Time หากค่า Velocity สูงผิดปกติ (เช่น > 200 กม./ชม. ) จะเป็นหลักฐานยืนยันการถูก Remote Access
 - คะแนนความเสี่ยงตามความเชื่อมโยงของพื้นที่ โดยเน้นธุรกรรมที่ไหลจากเขตเมืองไปสู่จังหวัดชายแดนยุทธศาสตร์
 
 **Hypothesis 3️⃣** มีพฤติกรรมโอนเงินยอดใหญ่ที่ผิดปกติ โดยโอนออกมากกว่า 80% ของยอดเงินในบัญชี (% Balance Transferred) ไปยังบัญชีใหม่ที่ไม่เคยโอนให้มาก่อน
 
-**Method: Financial Impact & Outflow Filtering**
+**✳️ Method: Financial Impact & Outflow Filtering**
 - ใช้การคำนวณสัดส่วนการไหลออกของเงิน (Outflow Ratio) โดยคัดกรองเฉพาะธุรกรรมที่ทำให้ยอดเงินคงเหลือลดลงอย่างมีนัยสำคัญ (เช่น โอนออก > 80% และยอดคงเหลือใกล้ 0)
 
-**Metric: Mule Connectivity Velocity (Fund Retention Duration)**
+**✳️ Metric: Mule Connectivity Velocity (Fund Retention Duration)**
 - ความเร็วในการไหลของเงินจากต้นทางไปยังพื้นที่ถอนเงินในจังหวัดชายแดน
 - วัด Location Mismatch เช่น เหยื่อโอนจากกรุงเทพฯ แต่เงินถูกถอนที่ตากภายในเวลาไม่กี่นาที และดูอัตราการ แช่เงิน (Fund Retention) ที่ต่ำมาก คือเงินเข้าปุ๊บถูกถอนออกปั๊บทันทีที่จุดนัดพบของบัญชีม้า
 ## 5W1H: Sharp Analytical Questions
@@ -90,13 +90,30 @@
 
 <img width="1634" height="902" alt="image" src="https://github.com/user-attachments/assets/9cc1b756-628d-41b8-97a1-360e00719b7b" />
 
-**Data Exploration & Quality Analysis**
+
+**♡Data Exploration & Quality Analysis♡**
 
 <img width="1920" height="1080" alt="Purple and White Modern Gradient Business Pitch Deck Presentation (1)" src="https://github.com/user-attachments/assets/d0673e87-406b-48d3-b404-98e61214fe41" />
 
-**Key Findings (Insights)**
-1. Significant Amount Difference: ค่าเฉลี่ยของยอดเงินในรายการทุจริต (Fraud avg ~616,000 บาท) สูงกว่ารายการปกติ (Normal avg ~15,000 บาท) ถึง 40 เท่า
-2. Class Imbalance Handling: ข้อมูลชุดนี้มีการจำลองสถานการณ์จริงที่พบในงาน Fraud Detection คือรายการทุจริตมีจำนวนน้อยมากเมื่อเทียบกับรายการปกติ (Fraud is rare) โดยมีสัดส่วนรายการทุจริตเพียง 5.93% (1,186 รายการ) จากทั้งหมด 20,000 รายการ
-3. Behavioral Pattern (High-Percentage Drain): รายการที่เป็น Fraud ส่วนใหญ่มีพฤติกรรมการโอนเงินออกแบบเกลี้ยงบัญชี โดยพบว่า 93% ของรายการทุจริตมีการโอนเงินออกเกิน 80% ของยอดเงินที่มีอยู่ (Is_80Pct_Drain = Yes) ในขณะที่รายการปกติมีพฤติกรรมนี้เพียง 0.9% เท่านั้น
-4. Drainage Behavior: เราพบพฤติกรรมเด่นชัดคือรายการที่เป็น Fraud ถึง 93% จะพยายามโอนเงินออกให้ได้มากกว่า 80% ของยอดเงินในบัญชี ซึ่งเป็น Feature สำคัญในการใช้ตรวจจับ (Flagging)
-5. Channel Distribution: ตรวจพบการทำ Fraud กระจายตัวอยู่ในทุกช่องทาง เช่น K-Plus, Krungthai NEXT และ SCB EASY
+<img width="2360" height="948" alt="image" src="https://github.com/user-attachments/assets/b1212447-bf53-4d51-bd2c-3bece6d338d9" />
+
+
+**Data Pre-processing & Quality Control**
+**1. การจัดการข้อมูลสูญหาย (Handling Missing Values)**
+- Problem: พบค่า Null ในคอลัมน์ duration_sec (ระยะเวลาการใช้งาน)
+- Solution: ใช้เทคนิค Query-based Imputation โดยเติมค่าว่างด้วย ค่าเฉลี่ยแยกตามประเภทกิจกรรม (Average per Event Type) แทนการใช้ค่าเฉลี่ยรวม เพื่อรักษาความแม่นยำของพฤติกรรมในแต่ละกิจกรรม
+
+**2. การปรับมาตรฐานข้อมูล (Data Standardization)**
+- Problem: คอลัมน์ ip_province มีข้อมูลไม่สม่ำเสมอ เช่น ชื่อย่อ (BKK) หรือเขียนติดกัน (ChiangMai)  
+- Solution: ใช้ Conditional Logic Mapping เพื่อแปลงข้อมูลให้ตรงตาม Master List (เช่น BKK ➔ Bangkok) ช่วยให้การจัดกลุ่มและการทำ Visualization ถูกต้องแม่นยำ
+
+**Key Insights (สรุปผลการวิเคราะห์)**
+**1. พฤติกรรมการเงินที่ผิดปกติ (Significant Amount & Pattern)**
+- ยอดเงินสูงผิดปกติ: รายการทุจริตมียอดเงินเฉลี่ยสูงถึง ~616,000 บาท ซึ่งสูงกว่ารายการปกติถึง 40 เท่า
+- พฤติกรรมการโอนเกลี้ยงบัญชี: รายการทุจริตกว่า 93% มีพฤติกรรมโอนเงินออกเกิน 80% ของยอดเงินคงเหลือ (Is_80Pct_Drain) ในขณะที่รายการปกติมีพฤติกรรมนี้เพียง 0.9% เท่านั้น
+  
+**2. ลักษณะของข้อมูล (Class Imbalance)**
+- ความสมจริงของข้อมูล: ข้อมูลจำลองสถานการณ์จริงที่รายการทุจริตเกิดขึ้นน้อย (Rare Event) โดยมีสัดส่วนเพียง 5.93% (1,186 จาก 20,000 รายการ) เพื่อใช้ทดสอบประสิทธิภาพของโมเดลในการตรวจจับเคสที่หาได้ยาก
+
+**3. ช่องทางการเกิดทุจริต (Channel Distribution)**
+- พบการทุจริตกระจายตัวอยู่ในทุกช่องทางหลัก เช่น K-Plus, Krungthai NEXT และ SCB EASY โดยเฉพาะช่องทาง Mobile ที่มักถูกใช้เป็นเครื่องมือหลักในการทำธุรกรรมที่ผิดปกติ  
