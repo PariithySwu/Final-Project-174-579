@@ -87,7 +87,7 @@
 - การใช้ Alert Logic ที่รวมเงื่อนไข ความเร็วผิดปกติ + ยอดเงินสูง + ปลายทางชายแดน เพื่อระบุว่าเป็นบัญชีม้า
 ## ⭐️ AI Data Quality
 ### Analyze Data using Excel
-Excel files: [Scam Query Dataset](Scam_Query_Dataset.xlsx)
+Excel files: [Scam Query Dataset](ScamQueryDataset.xlsx)
 
 ### Data Dictionary ⬇️
 
@@ -258,7 +258,7 @@ Tableau files: [EDA](EDA.twbx)
 5. Device-based Risk Escalation: กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
 
 ## Presentation Documents
-Presentation Sildes: [Final Project Slides](FinalProjectSlides.pdf)
+Presentation Sildes: [Final Project Slides](FinalProjectSlides174-579.pdf)
 
 ## Team Members
 1. ปริยากร จารุมิศร์ 66102010174
