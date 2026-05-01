@@ -96,6 +96,7 @@
 <img width="1920" height="1080" alt="Purple and White Modern Gradient Business Pitch Deck Presentation (1)" src="https://github.com/user-attachments/assets/d0673e87-406b-48d3-b404-98e61214fe41" />
 
 
+
 <img width="2360" height="948" alt="image" src="https://github.com/user-attachments/assets/b1212447-bf53-4d51-bd2c-3bece6d338d9" />
 
 
@@ -112,6 +113,7 @@
 <img width="2224" height="1228" alt="image" src="https://github.com/user-attachments/assets/4540bf04-40cb-433b-82d8-1f3b038a27db" />
 
 
+
 ### Key Insights (สรุปผลการวิเคราะห์) 🔑
 
 **1. พฤติกรรมการเงินที่ผิดปกติ (Significant Amount & Pattern)**
@@ -125,6 +127,9 @@
 - พบการทุจริตกระจายตัวอยู่ในทุกช่องทางหลัก เช่น K-Plus, Krungthai NEXT และ SCB EASY โดยเฉพาะช่องทาง Mobile ที่มักถูกใช้เป็นเครื่องมือหลักในการทำธุรกรรมที่ผิดปกติ  
 
 ## ⭐️ EDA & Visualizations
+### Analyze Data using Excel 
+Excel file: 
+
 **1. Who (Target)❓**
 - ยืนยันได้ชัดเจนว่า บัญชี Dormant ถูกใช้เป็นบัญชีม้ามากกว่า Active 
 - เหตุผลคือ เจ้าของบัญชีไม่ได้ใช้งานนานทำให้มิจฉาชีพมีโอกาสเข้าถึงหรือซื้อบัญชีดังกล่าวมาใช้โดยที่เจ้าของไม่สังเกตเห็นความผิดปกติ
@@ -133,13 +138,18 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 <img width="1328" height="944" alt="image" src="https://github.com/user-attachments/assets/cbdf3311-ff32-470f-85cc-75bcad0eab29" />
 
 
+
 **2. Where (Geographic Risk)❓**
+
+Tableau files: [EDA.twbx](EDA.tedx)
 - Mismatch route มี Fraud Rate 100% เมื่อใดก็ตามที่ IP ต้นทางกับจังหวัดที่ถอนเงินไม่ตรงกัน นั่นคือ fraud แน่นอน โดยเฉพาะจังหวัดชายแดน  ซึ่งเป็นจุดที่เครือข่ายบัญชีม้าใช้ถอนเงินแล้วนำออกนอกประเทศ
 - Location Mismatch จึงสามารถใช้เป็น hard rule ในการ flag fraud ได้
 
 <img width="1101" height="758" alt="Screenshot 2569-05-01 at 16 20 58" src="https://github.com/user-attachments/assets/b5b7c484-337d-43ce-8c8b-06aa969c664d" />
 
+
 <img width="1101" height="758" alt="Screenshot 2569-05-01 at 16 21 34" src="https://github.com/user-attachments/assets/1c907450-243a-435b-a0d7-9915f722e400" />
+
 
 
 **3. What (Risk Feature)❓**
@@ -150,11 +160,13 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 <img width="1065" height="555" alt="Screenshot 2569-05-01 at 21 04 10" src="https://github.com/user-attachments/assets/9c7475fe-b8a0-4c3c-a353-db84cc3897e1" />
 
 
+
 **4. When (Temporal Pattern)❓**
 - Fraud กระจายตัวสม่ำเสมอตลอด 24 ชั่วโมง ซึ่งต่างจากสมมติฐานเดิมที่คาดว่าจะกระจุกตัวในช่วงดึก
 - ชั่วโมงที่ 23 และ ชั่วโมงที่ 2 สูงขึ้นสะท้อนพฤติกรรมมิจฉาชีพที่ทำงานช่วงเจ้าของบัญชีหลับ เพราะโอกาสที่เหยื่อจะสังเกตเห็นการแจ้งเตือน และยกเลิกรายการทันทีนั้นต่ำกว่า ส่วน Peak (ชม.ที่ 8,16) สอดคล้องกับช่วงที่เหยื่อถูกหลอกโดยตรง เช่น มิจฉาชีพโทรมาหาในเวลากลางวัน
 
 <img width="1065" height="555" alt="Screenshot 2569-05-01 at 21 04 49" src="https://github.com/user-attachments/assets/1e64837e-7a15-4c40-9e12-b99cf245ad5e" />
+
 
 
 **5. Why (Justification)❓**
@@ -165,6 +177,7 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 <img width="888" height="346" alt="Screenshot 2569-05-01 at 21 05 14" src="https://github.com/user-attachments/assets/c3508fed-f1ca-4274-9adb-9e984aa30e7a" />
 
 
+
 **6. How (Detection Logic)❓**
 - is_high_risk_scenario มีประสิทธิภาพสูงมาก
 - Precision 99.46% เกือบทุก alert ที่ระบบยิงออกมาเป็น Fraud จริง (มี False Positive แค่ 6 ราย เท่านั้น และ Recall 93.17%)
@@ -172,6 +185,7 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 - กราฟ Stacked Bar บอกว่า High Risk Condition bar เกือบทั้งหมดเป็นสีแดง (TRUE) และ Normal bar เกือบทั้งหมดเป็นสีน้ำเงิน (FALSE)
 
 <img width="1065" height="522" alt="Screenshot 2569-05-01 at 21 05 53" src="https://github.com/user-attachments/assets/966ec65e-db6c-48aa-a79e-3d54b9ca8d07" />
+
 
 
 ## ⭐️ Findings & Behavioral Insights
@@ -186,12 +200,14 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 <img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 31" src="https://github.com/user-attachments/assets/908712d3-381b-4fe6-8c25-be5e31755cd3" />
 
 
+
 **2. High-Risk Provinces 🛣️**
 - Drain-to-Zero Pattern: ธุรกรรมในจังหวัดเสี่ยงมีสัดส่วนการโอนออก > 80% (Is_80Pct_Drain = Yes) สูงอย่างชัดเจน
 - Top Risk Provinces: เชียงราย, ตาก, กาญจนบุรี, สระแก้ว, นราธิวาส
 - มิจฉาชีพเน้นการกวาดเงินให้หมดบัญชีในครั้งเดียว (Hit & Run) ซึ่งต่างจากพฤติกรรมลูกค้าปกติที่จะมียอดเงินคงเหลือไว้ใช้จ่าย
 
 <img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 36" src="https://github.com/user-attachments/assets/537ce135-46d0-40ed-9827-9a7296565447" />
+
 
 
 **3. Hourly Fraud Peak 🕰️**
@@ -203,11 +219,13 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 <img width="659" height="401" alt="Screenshot 2569-05-01 at 21 08 41" src="https://github.com/user-attachments/assets/482f654d-9da1-42b9-a69b-717b924cccda" />
 
 
+
 **4. Average Velocity per Device Model 🚘**
 - Samsung S24 Ultra มี AVG Velocity สูงสุด (43.81 กม./ชม.) รองลงมาคือ Oppo Reno 11 (41.64) และสุดท้าย Vivo V30 (40.63)
 - สะท้อนว่าอุปกรณ์ Android กลุ่มนี้ถูกใช้ใน Cross-border Case มากกว่า iPhone อย่างมีนัยสำคัญ
 
 <img width="691" height="404" alt="Screenshot 2569-05-01 at 21 08 48" src="https://github.com/user-attachments/assets/7c35ae60-3952-4e72-bd79-5329b6e32a90" />
+
 
 
 **5. Device Risk Profile 📱**
@@ -218,9 +236,10 @@ KYC Type มีความต่างไม่มาก (Branch 6.02%, DipChip
 <img width="671" height="404" alt="Screenshot 2569-05-01 at 21 08 54" src="https://github.com/user-attachments/assets/008a20ae-d87a-4449-9810-1119900eae3a" />
 
 
+
 ## ⭐️ Strategic Recommendations & Action Plan
-1. Velocity Block Rule: Hold ธุรกรรม 30 นาที หาก Velocity > 200 กม./ชม. เพื่อหยุดเงินก่อนออกนอกประเทศ
-2. Night-Time Security: ช่วง 00:00-05:00 น. บังคับสแกนหน้าแบบเคลื่อนไหว หากโอนเกิน 80% ของบัญชี
-3. Mule Watchlist: เฝ้าระวังและ Alert ทันที เมื่อมีการโอนเข้าบัญชีเปิดใหม่ใน 5 จังหวัดชายแดน
-4. Customer Education: แจ้งเตือนลูกค้ากลุ่มเสี่ยงให้ปิดสิทธิ์ "Accessibility Service" เพื่อป้องกันแอปดูดเงิน
-5. Device-based Risk Escalation: กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
+**1️⃣ Velocity Block Rule:** Hold ธุรกรรม 30 นาที หาก Velocity > 200 กม./ชม. เพื่อหยุดเงินก่อนออกนอกประเทศ
+**2️⃣ Night-Time Security:** ช่วง 00:00-05:00 น. บังคับสแกนหน้าแบบเคลื่อนไหว หากโอนเกิน 80% ของบัญชี
+**3️⃣ Mule Watchlist:** เฝ้าระวังและ Alert ทันที เมื่อมีการโอนเข้าบัญชีเปิดใหม่ใน 5 จังหวัดชายแดน
+**4️⃣ Customer Education:** แจ้งเตือนลูกค้ากลุ่มเสี่ยงให้ปิดสิทธิ์ "Accessibility Service" เพื่อป้องกันแอปดูดเงิน
+**5️⃣ Device-based Risk Escalation:** กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
