@@ -87,7 +87,7 @@
 - การใช้ Alert Logic ที่รวมเงื่อนไข ความเร็วผิดปกติ + ยอดเงินสูง + ปลายทางชายแดน เพื่อระบุว่าเป็นบัญชีม้า
 ## ⭐️ AI Data Quality
 ### Analyze Data using Excel
-Excel files: [Scam Query Dataset](Scam Query Dataset.xlsx)
+Excel files: [Scam Query Dataset](Scam_Query_Dataset.xlsx)
 
 ### Data Dictionary ⬇️
 
@@ -158,13 +158,13 @@ Tableau files: [EDA](EDA.twbx)
 - Outflow Ratio 90.96% ยืนยัน Drain-to-Zero Pattern เมื่อมิจฉาชีพเข้าถึงบัญชีได้จะโอนเงินออกจนเกือบหมดในครั้งเดียว
 - ต่างจากพฤติกรรมปกติที่คนทั่วไปโอนเงินเพียงบางส่วน (Avg Outflow ratio 3.49%)
 
-**Transaction Amount Distribution Graph(Linear Scale)**
+**1️⃣ Transaction Amount Distribution Graph(Linear Scale)**
 - กราฟนี้แสดงให้เห็นว่ายอดเงินของการโกงมีความแตกต่างจากปกติอย่างมหาศาล
 - กลุ่มปกติ (สีฟ้า): มีการกระจายตัวกว้าง ตั้งแต่หลักร้อยไปจนถึงเกือบเก้าแสนบาท (Max 910k) แต่ค่าเฉลี่ยส่วนใหญ่อยู่ที่ประมาณ 15,000 บาท
 - กลุ่มทุจริต (สีแดง): จะเห็นว่า Box (กล่อง) แบนแต๊ดแต๋อยู่ด้านบน และมีจุดกระจัดกระจาย (Outliers) สูงมาก ค่าเฉลี่ยพุ่งไปถึง 616,966 บาท
 - Insight: มิจฉาชีพไม่ได้โอนเล่นๆ แต่เน้นโอนยอดใหญ่ที่สุดเท่าที่จะทำได้ในครั้งเดียว
 
-**Transaction Value Comparison Graph(Log10 Transformation)**
+**2️⃣ Transaction Value Comparison Graph(Log10 Transformation)**
 - เนื่องจากยอดเงินปกติกับยอดเงินโกงมันต่างกันเกินไป (ต่างกัน 40 เท่า) การใช้ Log Scale จะช่วยให้เราเห็นโครงสร้างของข้อมูลได้ชัดขึ้นครับ
 - กลุ่มปกติ (จุดสีฟ้า): ข้อมูลกระจายตัวสม่ำเสมอในหลายระดับยอดเงิน
 - กลุ่มทุจริต (กล่องสีแดง): เมื่อทำ Log แล้วจะเห็นชัดว่า ธุรกรรมโกงเกาะกลุ่มกันแน่นมาก (Tightly Clustered) ในระดับวงเงินที่สูง (ระดับ 10^5 - 10^6)
@@ -251,18 +251,14 @@ Tableau files: [EDA](EDA.twbx)
 
 
 ## ⭐️ Strategic Recommendations & Action Plan
-**1. Velocity Block Rule:** Hold ธุรกรรม 30 นาที หาก Velocity > 200 กม./ชม. เพื่อหยุดเงินก่อนออกนอกประเทศ
-
-**2. Night-Time Security:** ช่วง 00:00-05:00 น. บังคับสแกนหน้าแบบเคลื่อนไหว หากโอนเกิน 80% ของบัญชี
-
-**3. Mule Watchlist:** เฝ้าระวังและ Alert ทันที เมื่อมีการโอนเข้าบัญชีเปิดใหม่ใน 5 จังหวัดชายแดน
-
-**4. Customer Education:** แจ้งเตือนลูกค้ากลุ่มเสี่ยงให้ปิดสิทธิ์ "Accessibility Service" เพื่อป้องกันแอปดูดเงิน
-
-**5. Device-based Risk Escalation:** กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
+1. Velocity Block Rule: Hold ธุรกรรม 30 นาที หาก Velocity > 200 กม./ชม. เพื่อหยุดเงินก่อนออกนอกประเทศ
+2. Night-Time Security: ช่วง 00:00-05:00 น. บังคับสแกนหน้าแบบเคลื่อนไหว หากโอนเกิน 80% ของบัญชี
+3. Mule Watchlist: เฝ้าระวังและ Alert ทันที เมื่อมีการโอนเข้าบัญชีเปิดใหม่ใน 5 จังหวัดชายแดน
+4. Customer Education: แจ้งเตือนลูกค้ากลุ่มเสี่ยงให้ปิดสิทธิ์ "Accessibility Service" เพื่อป้องกันแอปดูดเงิน
+5. Device-based Risk Escalation: กำหนด High Priority Flag สำหรับอุปกรณ์ Android กลุ่ม High-Velocity (Samsung S24 Ultra, Oppo Reno 11, Vivo V30) โดยให้ระบบ Escalate Alert และส่ง Notification แนะนำการปิด Accessibility Service โดยเฉพาะกลุ่มอุปกรณ์นี้ก่อนใคร
 
 ## Presentation Documents
-Presentation Sildes: [Final Project Slides](Final Project Slides.pdf)
+Presentation Sildes: [Final Project Slides](FinalProjectSlides.pdf)
 
 ## Team Members
 1. ปริยากร จารุมิศร์ 66102010174
