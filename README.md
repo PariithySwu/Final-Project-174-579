@@ -70,32 +70,33 @@
 ## 5W1H: Sharp Analytical Questions
 **1. Who (Target) ใครคือเหยื่อ?**
 - บัญชีที่มีพฤติกรรมการโอนเงินที่เปลี่ยนไปอย่างกะทันหัน บัญชีที่มีการโอนเงินจากพื้นที่ที่ไม่ใช่ที่อยู่ประจำ หรือมี IP ต้นทางในจังหวัดเศรษฐกิจ เช่น กรุงเทพฯ แต่เงินถูกถอนออกที่ชายแดนในเวลาที่ไล่เลี่ยกัน
+  
 **2. Where (Geographic Risk) เงินไหลไปที่ไหน?**
 - พื้นที่ ip_province ที่มีความถี่ในการโอนเงินออกสูงผิดปกติ หรือเกิด Location Mismatch ระหว่าง ip_province (ที่เหยื่ออยู่ เช่น กรุงเทพฯ) กับ mule_withdrawal_province (ที่มิจฉาชีพถอนเงิน เช่น ตาก) ซึ่งจังหวัดชายแดนเป็นจุดถอนเงินของบัญชีม้า
+  
 **3. What (Risk Feature) ธุรกรรมแบบไหนที่น่าสงสัย?**
 - ธุรกรรมที่มีมูลค่าสูง (High-value) และส่งผลให้ Outflow Ratio สูงผิดปกติ (เช่น โอนออก > 80% จนยอดเงินคงเหลือใกล้เคียง 0)
+  
 **4. When (Temporal Pattern) ลำดับเวลาใดที่ผิดปกติ?**
 - มีการทำกิจกรรมต้นทางเช่น CHANGE_DAILY_LIMIT หรือ ADD_NEW_PAYEE ด้วยระยะเวลาที่รวดเร็วผิดปกติ (Duration Anomaly) ก่อนการโอนเงินทันที
+  
 **5. Why (Justification) ทำไมต้องวิเคราะห์เพิ่ม?**
 - การใช้ is_facial_scan เพียงอย่างเดียวไม่เพียงพอ เพื่อพิสูจน์ว่ามิจฉาชีพอาจหลอกให้เหยื่อสแกนหน้าด้วยตนเอง หรือถูกหลอกให้ทำรายการเองภายใต้การ Remote ระบบจึงต้องใช้ Behavioral Logs มาเป็นปัจจัยยืนยันความเสี่ยงแทน
+  
 **6. How (Detection Logic) จะคัดกรองอย่างไร?**
 - การใช้ Alert Logic ที่รวมเงื่อนไข ความเร็วผิดปกติ + ยอดเงินสูง + ปลายทางชายแดน เพื่อระบุว่าเป็นบัญชีม้า
 ## AI Data Quality
 **Data Dictionary**
+
 <img width="1634" height="902" alt="image" src="https://github.com/user-attachments/assets/9cc1b756-628d-41b8-97a1-360e00719b7b" />
 
 **Data Exploration & Quality Analysis**
-<img width="842" height="342" alt="image" src="https://github.com/user-attachments/assets/98a2d09e-e010-4dd5-af7b-b72691b77390" />
 
-<img width="734" height="204" alt="image" src="https://github.com/user-attachments/assets/b4b83359-fd67-4431-ad00-44e686201d1c" />
-
-<img width="842" height="236" alt="image" src="https://github.com/user-attachments/assets/037caa7f-a06d-4fa1-b616-3b18f3e295e3" />
-
-- **Class Imbalance Handling:** ข้อมูลชุดนี้มีการจำลองสถานการณ์จริงที่พบในงาน Fraud Detection คือรายการทุจริตมีจำนวนน้อยมากเมื่อเทียบกับรายการปกติ (Fraud is rare) โดยมีสัดส่วนรายการทุจริตเพียง 5.93% (1,186 รายการ) จากทั้งหมด 20,000 รายการ
-- **Transaction Insights by Channel:** จากการวิเคราะห์ผ่าน Pivot Table พบว่ารายการทุจริตเกิดขึ้นในทุกช่องทาง โดยช่องทาง Mobile มีสัดส่วนรายการที่เป็น Fraud สูงอย่างมีนัยสำคัญเมื่อเทียบกับปริมาณธุรกรรมรวมของช่องทางนั้น
+<img width="1920" height="1080" alt="Purple and White Modern Gradient Business Pitch Deck Presentation (1)" src="https://github.com/user-attachments/assets/d0673e87-406b-48d3-b404-98e61214fe41" />
 
 **Key Findings (Insights)**
-1. **Significant Amount Difference:** ค่าเฉลี่ยของยอดเงินในรายการทุจริต (Fraud avg ~616,000 บาท) สูงกว่ารายการปกติ (Normal avg ~15,000 บาท) ถึง 40 เท่า
-2. **Behavioral Pattern (High-Percentage Drain):** รายการที่เป็น Fraud ส่วนใหญ่มีพฤติกรรมการโอนเงินออกแบบเกลี้ยงบัญชี โดยพบว่า 93% ของรายการทุจริตมีการโอนเงินออกเกิน 80% ของยอดเงินที่มีอยู่ (Is_80Pct_Drain = Yes) ในขณะที่รายการปกติมีพฤติกรรมนี้เพียง 0.9% เท่านั้น
-3. **Drainage Behavior:** เราพบพฤติกรรมเด่นชัดคือรายการที่เป็น Fraud ถึง 93% จะพยายามโอนเงินออกให้ได้มากกว่า 80% ของยอดเงินในบัญชี ซึ่งเป็น Feature สำคัญในการใช้ตรวจจับ (Flagging)
-4. **Channel Distribution:** ตรวจพบการทำ Fraud กระจายตัวอยู่ในทุกช่องทาง เช่น K-Plus, Krungthai NEXT และ SCB EASY
+1. Significant Amount Difference: ค่าเฉลี่ยของยอดเงินในรายการทุจริต (Fraud avg ~616,000 บาท) สูงกว่ารายการปกติ (Normal avg ~15,000 บาท) ถึง 40 เท่า
+2. Class Imbalance Handling: ข้อมูลชุดนี้มีการจำลองสถานการณ์จริงที่พบในงาน Fraud Detection คือรายการทุจริตมีจำนวนน้อยมากเมื่อเทียบกับรายการปกติ (Fraud is rare) โดยมีสัดส่วนรายการทุจริตเพียง 5.93% (1,186 รายการ) จากทั้งหมด 20,000 รายการ
+3. Behavioral Pattern (High-Percentage Drain): รายการที่เป็น Fraud ส่วนใหญ่มีพฤติกรรมการโอนเงินออกแบบเกลี้ยงบัญชี โดยพบว่า 93% ของรายการทุจริตมีการโอนเงินออกเกิน 80% ของยอดเงินที่มีอยู่ (Is_80Pct_Drain = Yes) ในขณะที่รายการปกติมีพฤติกรรมนี้เพียง 0.9% เท่านั้น
+4. Drainage Behavior: เราพบพฤติกรรมเด่นชัดคือรายการที่เป็น Fraud ถึง 93% จะพยายามโอนเงินออกให้ได้มากกว่า 80% ของยอดเงินในบัญชี ซึ่งเป็น Feature สำคัญในการใช้ตรวจจับ (Flagging)
+5. Channel Distribution: ตรวจพบการทำ Fraud กระจายตัวอยู่ในทุกช่องทาง เช่น K-Plus, Krungthai NEXT และ SCB EASY
